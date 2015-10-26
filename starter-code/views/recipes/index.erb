@@ -1,0 +1,22 @@
+<h2>Recipes</h2>
+
+<div class="recipes">
+  <% @recipes.each do |recipe| %>
+  <div class="row">
+    <ul>
+      <li>Title: <%= recipe.title %></li>
+      <li>Description: <%= recipe.description %></li>
+      <li>Servings: <%= recipe.servings %></li>
+
+      <a href="/recipes/<%= recipe.id %>/edit">
+        Edit
+      </a>
+
+      <form method="post" action="/recipes/<%= recipe.id %>/delete">
+        <button>Delete</button>
+      </form>
+    </ul>
+  </div>
+  <br>
+  <% end %>
+</div>
