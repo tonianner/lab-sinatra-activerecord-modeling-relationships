@@ -1,0 +1,8 @@
+<h2>EDIT Ingredient</h2>
+
+<form action="/ingredients/<%= "#{@ingredient.id}" %>" method="post">
+  <label for="ingredient[name]">Name:</label>
+  <input name="ingredient[name]" value="<%= "#{@ingredient.name}" %>">
+
+ <input type="submit" value="Update">
+</form>

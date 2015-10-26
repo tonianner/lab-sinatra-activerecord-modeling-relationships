@@ -8,6 +8,8 @@ class RecipeApp < Sinatra::Base
     erb :home
   end
 
+#---------------------
+
   # index
   get '/recipes' do
     @recipes = Recipe.all
@@ -18,6 +20,13 @@ class RecipeApp < Sinatra::Base
     @courses = Course.all
     erb(:"courses/index")
   end
+
+  get '/ingredients' do
+    @ingredients = Ingredient.all
+    erb(:"ingredients/index")
+  end
+
+#---------------------
 
   #new
   get '/recipes/new' do
@@ -30,10 +39,17 @@ class RecipeApp < Sinatra::Base
     erb :"courses/new"
   end
 
+  get '/ingredients/new' do
+    @ingredient = Ingredient.new
+    erb :"ingredients/new"
+  end
+
+#---------------------
+
    # create
   post '/recipes' do
     @recipe = Recipe.new(params[:recipe])
-    if @recipe.save || @course.save
+    if @recipe.save
       redirect("/recipes/#{@recipe.id}")
     else
       erb(:"recipes/new")
@@ -42,12 +58,23 @@ class RecipeApp < Sinatra::Base
 
   post '/courses' do
     @course = Course.new(params[:course])
-    if @course.save || @course.save
+    if @course.save
       redirect("/courses/#{@course.id}")
     else
       erb(:"courses/new")
     end
   end
+
+  post '/ingredients' do
+    @ingredient = Ingredient.new(params[:ingredient])
+    if @ingredient.save
+      redirect("/ingredients/#{@ingredient.id}")
+    else
+      erb(:"ingredients/new")
+    end
+  end
+
+#---------------------
 
   # show
   get '/recipes/:id' do
@@ -60,6 +87,13 @@ class RecipeApp < Sinatra::Base
     erb(:"courses/show")
   end
 
+  get '/ingredients/:id' do
+    @ingredient = Ingredient.find(params[:id])
+    erb(:"ingredients/show")
+  end
+
+#---------------------
+
     # edit
   get '/recipes/:id/edit' do
     @recipe = Recipe.find(params[:id])
@@ -70,6 +104,12 @@ class RecipeApp < Sinatra::Base
     @course = Course.find(params[:id])
     erb(:"courses/edit")
   end
+
+  get '/ingredients/:id/edit' do
+    @ingredient = Ingredient.find(params[:id])
+    erb(:"ingredients/edit")
+  end
+#---------------------
 
   # update
   post '/recipes/:id' do
@@ -90,6 +130,17 @@ class RecipeApp < Sinatra::Base
     end
   end
 
+  post '/ingredients/:id' do
+    @ingredient = Ingredient.find(params[:id])
+    if @ingredient.update_attributes(params[:ingredient])
+      redirect("/ingredients")
+    else
+      erb(:"ingredients/edit")
+    end
+  end
+
+#---------------------
+
   # delete
   post '/recipes/:id/delete' do
     @recipe = Recipe.find(params[:id])
@@ -106,6 +157,15 @@ class RecipeApp < Sinatra::Base
       redirect('/courses')
     else
       redirect("/courses/#{@course.id}/edit")
+    end
+  end
+
+  post '/ingredients/:id/delete' do
+    @ingredient = Ingredient.find(params[:id])
+    if @ingredient.destroy
+      redirect('/ingredients')
+    else
+      redirect("/ingredients/#{@ingredient.id}/edit")
     end
   end
 

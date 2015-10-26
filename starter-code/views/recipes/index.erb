@@ -8,6 +8,8 @@
       <li>Description: <%= recipe.description %></li>
       <li>Servings: <%= recipe.servings %></li>
       <li>Course: <%= recipe.course.title %></li>
+      <li>Ingredients <%= recipe.ingredients.name %></li>
+      <!-- Failed: to get Ingredient name -->
 
 
       <a href="/recipes/<%= recipe.id %>/edit">
