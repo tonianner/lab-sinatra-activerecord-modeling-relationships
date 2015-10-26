@@ -17,14 +17,12 @@ class RecipeApp < Sinatra::Base
   #new
   get '/recipes/new' do
     @recipe = Recipe.new
-    @course = Course.new
     erb :"recipes/new"
   end
 
    # create
   post '/recipes' do
     @recipe = Recipe.new(params[:recipe])
-    @course = Course.new(params[:course])
     if @recipe.save || @course.save
       redirect("/recipes/#{@recipe.id}")
     else
