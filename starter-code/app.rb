@@ -14,15 +14,18 @@ class RecipeApp < Sinatra::Base
     erb(:"recipes/index")
   end
 
+  #new
   get '/recipes/new' do
     @recipe = Recipe.new
+    @course = Course.new
     erb :"recipes/new"
   end
 
    # create
   post '/recipes' do
     @recipe = Recipe.new(params[:recipe])
-    if @recipe.save
+    @course = Course.new(params[:course])
+    if @recipe.save || @course.save
       redirect("/recipes/#{@recipe.id}")
     else
       erb(:"recipes/new")
@@ -58,7 +61,7 @@ class RecipeApp < Sinatra::Base
     if @recipe.destroy
       redirect('/recipes')
     else
-      redirect("/recipes/#{@artist.id}/edit")
+      redirect("/recipes/#{@recipe.id}/edit")
     end
   end
 
