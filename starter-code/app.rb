@@ -14,10 +14,20 @@ class RecipeApp < Sinatra::Base
     erb(:"recipes/index")
   end
 
+  get '/courses' do
+    @courses = Course.all
+    erb(:"courses/index")
+  end
+
   #new
   get '/recipes/new' do
     @recipe = Recipe.new
     erb :"recipes/new"
+  end
+
+  get '/courses/new' do
+    @course = Course.new
+    erb :"courses/new"
   end
 
    # create
@@ -30,10 +40,24 @@ class RecipeApp < Sinatra::Base
     end
   end
 
+  post '/courses' do
+    @course = Course.new(params[:course])
+    if @course.save || @course.save
+      redirect("/courses/#{@course.id}")
+    else
+      erb(:"courses/new")
+    end
+  end
+
   # show
   get '/recipes/:id' do
     @recipe = Recipe.find(params[:id])
     erb(:"recipes/show")
+  end
+
+  get '/courses/:id' do
+    @course = Course.find(params[:id])
+    erb(:"courses/show")
   end
 
     # edit
@@ -42,7 +66,11 @@ class RecipeApp < Sinatra::Base
     erb(:"recipes/edit")
   end
 
-  # given data, update a specific artis
+  get '/courses/:id/edit' do
+    @course = Course.find(params[:id])
+    erb(:"courses/edit")
+  end
+
   # update
   post '/recipes/:id' do
     @recipe = Recipe.find(params[:id])
@@ -53,6 +81,15 @@ class RecipeApp < Sinatra::Base
     end
   end
 
+  post '/courses/:id' do
+    @course = Course.find(params[:id])
+    if @course.update_attributes(params[:course])
+      redirect("/courses")
+    else
+      erb(:"courses/edit")
+    end
+  end
+
   # delete
   post '/recipes/:id/delete' do
     @recipe = Recipe.find(params[:id])
@@ -60,6 +97,15 @@ class RecipeApp < Sinatra::Base
       redirect('/recipes')
     else
       redirect("/recipes/#{@recipe.id}/edit")
+    end
+  end
+
+  post '/courses/:id/delete' do
+    @course = Course.find(params[:id])
+    if @course.destroy
+      redirect('/courses')
+    else
+      redirect("/courses/#{@course.id}/edit")
     end
   end
 

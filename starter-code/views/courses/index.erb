@@ -1,0 +1,21 @@
+<h2>Courses</h2>
+
+<div class="courses">
+  <% @courses.each do |course| %>
+  <div class="row">
+    <ul>
+      <li>Title: <%= course.title %></li>
+      <a href="/courses/<%= course.id %>/edit">
+        Edit
+      </a>
+
+      <form method="post" action="/courses/<%= course.id %>/delete">
+        <button>Delete</button>
+      </form>
+    </ul>
+  </div>
+  <br>
+  <% end %>
+</div>
+
+
